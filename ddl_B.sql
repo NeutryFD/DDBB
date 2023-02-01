@@ -112,3 +112,65 @@ CREATE TABLE investigador2(
     )AS SELECT DNI,nom,cognom FROM investigador;
 END;
 SELECT * FROM investigador;
+
+COMMENT ON COLUMN facultad.ubicacion IS 'BCN – Barcelona
+                                         CAN – Canàries
+                                         MAD – Madrid
+                                         ACO – A Corunya';
+
+COMMENT ON COLUMN equipos.nom IS 'Descripcion del laboratorio';
+
+SELECT * FROM facultad;
+
+CREATE SEQUENCE codi_facultad
+START WITH 7;
+
+DROP SEQUENCE codi_facultad;
+
+DELETE FROM facultad
+    WHERE codi = '7';
+
+INSERT INTO  facultad (codi, nom, centre, ubicacion) VALUES (nextval('codi_facultad'),'FIB','12205','BCN'),
+                                                            (nextval('codi_facultad'),'UPNA','18898','NAV'),
+                                                            (nextval('codi_facultad'),'UDO','19910','AST');
+SELECT nextval('{Nombre de la secuencia}')
+
+INSERT INTO equipos (NumSerie, nom, codi) VALUES ('68779737WQ','Oscil·loscopi',nextval('codi_facultad'));
+INSERT INTO equipos (NumSerie, nom, codi) VALUES ('35099799RR','Genetador de Funciones',nextval('codi_facultad'));
+
+CREATE INDEX index_con_investigador on investigador(cognom);
+CREATE INDEX index_nom_equipos on equipos(nom);
+
+
+ALTER TABLE investigador
+ADD COLUMN telefno varchar(9);
+
+ALTER TABLE equipos
+ADD COLUMN preu_lloger numeric(7,2) default 0
+    CONSTRAINT preu_no_negativo CHECK ( preu_lloger >= 0 and preu_lloger is not null);
+
+
+UPDATE equipos
+    SET preu_lloger = equipos.preu_lloger*1.18;
+
+ALTER TABLE equipos
+DROP COLUMN preu_lloger;
+
+
+DELETE FROM facultad
+WHERE codi = '1';
+
+DELETE FROM investigador
+WHERE DNI = '78142789Q';
+
+DELETE FROM equipos
+WHERE NumSerie = '932766015PT';
+
+ALTER TABLE equipos
+DROP CONSTRAINT FK_codi_equipos;
+
+ALTER TABLE investigador
+DROP CONSTRAINT FK_codi_investigador;
+
+ALTER TABLE reserva
+DROP CONSTRAINT FK_dni_reserva;
