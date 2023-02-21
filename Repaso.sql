@@ -46,8 +46,8 @@ SELECT sum(salary) FROM employees;
 SELECT  d.department_name, e.department_id, round(avg(salary),2) AS "MEDIA SAlARY"
 FROM employees e
 JOIN departments d on d.department_id = e.department_id
-GROUP BY e.department_id, d.department_name
-ORDER BY department_name;
+GROUP BY e.department_id, d.department_id
+ORDER BY e.department_id;
 --WHERE d.department_id = e.department_id;
 /* Agrupa los departamentos iguales con la funcion count */
 SELECT department_id, count(*)
@@ -57,5 +57,4 @@ HAVING count(*) >4;
 
 SELECT department_id, job_id, count(*)
 FROM employees
-GROUP BY department_id, job_id;
-
+GROUP BY department_id, job_id
